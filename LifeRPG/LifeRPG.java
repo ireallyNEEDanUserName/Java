@@ -60,6 +60,7 @@ public class LifeRPG extends JFrame{
             public void mouseClicked(MouseEvent evt){
                 if(!bar.getName().equals("")){
                     player.addXp(bar.getName(), 1);
+                    //bar.setString(string);
                     bar.setValue(player.getXp(bar.getName()));
                 }
                 //System.out.println(bar.getValue());
@@ -90,7 +91,7 @@ public class LifeRPG extends JFrame{
         addSkill.addActionListener((ActionEvent e) -> {
             if(addSkill.getText() != null){
                 String skill = StringUtils.capitalize(addSkill.getText());
-                player.setSkillName(skill);
+                player.setSkill(skill);
                 adicionarLista(player, habilidades);
                 addSkill.setText("");
             }
@@ -119,11 +120,7 @@ public class LifeRPG extends JFrame{
                         .addComponent(bar))
                 .addGroup(group.createParallelGroup()
                         .addComponent(inf));
-                //.addGroup(group.createParallelGroup()
-                        
-               // .addGroup(group.createParallelGroup()
-                        
-                        
+                      
         group.setVerticalGroup(groupVertical);
         
         setTitle("Life RPG");
