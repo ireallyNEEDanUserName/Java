@@ -23,12 +23,16 @@ public class Skill {
     private Map<String, Integer> skillLv = new HashMap<>();
     private Map<String, JProgressBar> progBar = new HashMap<>();
     
-    public void setSkillName(String str){
-        this.skillName = str;
-        this.skillColection.add(str);
-        this.skillXp.put(str, 0);
-        this.skillLv.put(str, 1);
-        this.progBar.put(str, new JProgressBar());
+    public void setSkill(String str){
+        
+        if(!skillColection.contains(str)){
+            this.skillName = str;
+            this.skillColection.add(str);
+            this.skillXp.put(str, 0);
+            this.skillLv.put(str, 1);
+            this.progBar.put(str, new JProgressBar());
+        }
+        
     }
     
     public List getAllSkillName(){
