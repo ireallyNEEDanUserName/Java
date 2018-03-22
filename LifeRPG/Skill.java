@@ -43,6 +43,10 @@ public class Skill {
         return this.skillColection.get(x).toString();
     }
     
+    public int getLvl(String str){
+        return this.skillLv.get(str);
+    }
+    
     public void addXp(String str, int v){
         int x = this.skillXp.get(str);
         x += v;
