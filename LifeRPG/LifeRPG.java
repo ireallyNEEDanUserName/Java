@@ -77,7 +77,7 @@ public class LifeRPG extends JFrame{
             int indx = cb.getSelectedIndex();
             if(ie.getStateChange() == 1){
                 inf.setText(player.getXSkillName(indx) + 
-                        " | LVL: " + player.getXpNecessario(player.getXSkillName(indx)) +
+                        " | LVL: " + player.getLvl(player.getXSkillName(indx)) +
                         " | XP: " + player.getXp(player.getXSkillName(indx)));
                 
                 bar.setValue(player.getXp(player.getXSkillName(indx)));
