@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
+import static javax.swing.GroupLayout.Alignment.CENTER;
 
 /**
  *
@@ -29,6 +30,7 @@ public class LifeRPG extends JFrame{
         getContentPane().setLayout(group);
         group.setAutoCreateGaps(true);
         group.setAutoCreateContainerGaps(true);
+        //group.setLayoutStyle(ls);
         
         GroupLayout.ParallelGroup groupHorizontal = group.createParallelGroup();
         GroupLayout.SequentialGroup groupVertical = group.createSequentialGroup();
@@ -59,9 +61,11 @@ public class LifeRPG extends JFrame{
             @Override
             public void mouseClicked(MouseEvent evt){
                 if(!bar.getName().equals("")){
-                    player.addXp(bar.getName(), 1);
-                    //bar.setString(string);
-                    bar.setValue(player.getXp(bar.getName()));
+                    int barValue = addXp(bar.getName(), player, 1);
+                    bar.setValue(barValue);
+                    inf.setText(bar.getName() + 
+                        " | LVL: " + player.getLvl(bar.getName()) +
+                        " | XP: " + player.getXp(bar.getName()));
                 }
                 //System.out.println(bar.getValue());
             }
@@ -80,31 +84,40 @@ public class LifeRPG extends JFrame{
                         " | LVL: " + player.getLvl(player.getXSkillName(indx)) +
                         " | XP: " + player.getXp(player.getXSkillName(indx)));
                 
-                bar.setValue(player.getXp(player.getXSkillName(indx)));
                 bar.setName(player.getXSkillName(indx));
+                int barValue = addXp(bar.getName(), player, 0);
+                bar.setValue(barValue);
             }
         });
         
         
-        JTextField addSkill = new JTextField("Digite a nova habilidade", 10);
-        limparCampo(addSkill);
-        addSkill.addActionListener((ActionEvent e) -> {
-            if(addSkill.getText() != null){
-                String skill = StringUtils.capitalize(addSkill.getText());
-                player.setSkill(skill);
-                adicionarLista(player, habilidades);
-                addSkill.setText("");
+        JButton addSkillBtn = new JButton("Add Skill");
+        addSkillBtn.addActionListener((ActionEvent e) -> {
+            newFrame(player, habilidades);
+        });
+
+        
+        JButton mDez = new JButton("+10");
+        mDez.addActionListener((ActionEvent e) -> {
+            if(!"".equals(bar.getName())){
+                int barValue = addXp(bar.getName(), player, 10);
+                bar.setValue(barValue);
+                inf.setText(bar.getName() +
+                        " | LVL: " + player.getLvl(bar.getName()) +
+                        " | XP: " + player.getXp(bar.getName()));
             }
+            
         });
         
         groupHorizontal
                 .addGroup(group.createSequentialGroup()
                         .addComponent(campoNome))
                 .addGroup(group.createSequentialGroup()
-                        .addComponent(habilidades)
-                        .addComponent(addSkill))
+                        .addComponent(habilidades, 0, GroupLayout.PREFERRED_SIZE, 150)
+                        .addComponent(addSkillBtn))
                 .addGroup(group.createSequentialGroup()
-                        .addComponent(bar))
+                        .addComponent(bar)
+                        .addComponent(mDez))
                 .addGroup(group.createSequentialGroup()
                         .addComponent(inf));
                 
@@ -112,12 +125,13 @@ public class LifeRPG extends JFrame{
         
         groupVertical
                 .addGroup(group.createParallelGroup()
-                        .addComponent(campoNome))
+                        .addComponent(campoNome, GroupLayout.Alignment.CENTER))
                 .addGroup(group.createParallelGroup()
-                        .addComponent(habilidades)
-                        .addComponent(addSkill))
+                        .addComponent(habilidades, 0, GroupLayout.PREFERRED_SIZE, 40)
+                        .addComponent(addSkillBtn, GroupLayout.Alignment.CENTER))
                 .addGroup(group.createParallelGroup()
-                        .addComponent(bar))
+                        .addComponent(bar)
+                        .addComponent(mDez, GroupLayout.Alignment.CENTER))
                 .addGroup(group.createParallelGroup()
                         .addComponent(inf));
                       
@@ -126,6 +140,28 @@ public class LifeRPG extends JFrame{
         setTitle("Life RPG");
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+    
+    public static void newFrame(Jogador player, JComboBox habilidades){
+        JFrame frame = new JFrame("Add Skill");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(new Dimension(200, 100));
+        frame.setVisible(true);
+        
+        JTextField addSkill = new JTextField("", 10);
+        limparCampo(addSkill);
+        addSkill.addActionListener((ActionEvent e) -> {
+            if(addSkill.getText() != null){
+                String skill = StringUtils.capitalize(addSkill.getText());
+                player.setSkill(skill);
+                adicionarLista(player, habilidades);
+                addSkill.setText("");
+                frame.dispose();
+            }
+        });
+        
+        frame.add(addSkill);
+        
     }
     
     public static void limparCampo(JTextField e){
@@ -154,6 +190,15 @@ public class LifeRPG extends JFrame{
             new LifeRPG().setVisible(true);
         });
 
+    }
+    
+    public static int addXp(String nome, Jogador player, int add){
+        
+        player.addXp(nome, add);
+        int xpNecessario = player.lvlUp(player.getLvl(nome));
+        int barValue = (int) (player.getXp(nome) / ((float) xpNecessario / (float) 100));
+        
+        return barValue;      
     }
     
     private Jogador player;
