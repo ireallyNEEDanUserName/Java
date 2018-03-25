@@ -51,6 +51,11 @@ public class Skill {
         int x = this.skillXp.get(str);
         x += v;
         this.skillXp.put(str, x);
+        int xpNecessario = lvlUp(this.skillLv.get(str));
+        if(this.skillXp.get(str) >= xpNecessario){
+            this.skillLv.put(str, this.skillLv.get(str) + 1);
+            this.skillXp.put(str, this.skillXp.get(str) - xpNecessario);
+        }
     }
     
     public int getXp(String str){
@@ -63,5 +68,9 @@ public class Skill {
     
     public JProgressBar getBar(String str){
         return this.progBar.get(str);
+    }
+    
+    public int lvlUp(int lvl){
+        return (int) Math.pow(2 , lvl);
     }
 }
