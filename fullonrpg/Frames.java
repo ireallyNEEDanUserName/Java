@@ -109,12 +109,12 @@ public class Frames extends JFrame {
         label.setForeground(Color.BLACK);
         
         ArrayList skl = FullOnRPG.player.getSkills();
-        //System.out.print(skl.get(0).getSkillName());
-        /*
+        
         skl.forEach((Object skill) -> {
-            System.out.print(skill.getSkillName());
+            Skill e = (Skill) skill;
+            System.out.print(e.getSkillName());
         });
-        */
+        
         painel.add(label);
         janela.add(painel);
     };
