@@ -17,7 +17,7 @@ public class Skill {
     
     public Skill(String str){
         this.skillName = str;
-        this.skillLvl = 0;
+        this.skillLvl = 1;
         this.skillXp = 0;
     }
     
@@ -31,6 +31,10 @@ public class Skill {
     
     public int getSkillXp(){
         return this.skillXp;
+    }
+    public int getSkillNextXP(){
+        int x = this.skillLvl * 2 - (this.skillLvl / 2) + 100;
+        return x;
     }
     public void setSkillXp(int x){
         this.skillXp += x;
