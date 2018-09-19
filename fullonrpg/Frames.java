@@ -10,6 +10,7 @@ import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -104,18 +105,64 @@ public class Frames extends JFrame {
         //System.out.print("skFrm");
         
         JPanel painel = new JPanel();
-        painel.setBackground(Color.YELLOW);
+        painel.setBackground(Color.WHITE);
+        
+        GroupLayout layout = new GroupLayout(painel);
+        painel.setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        
+        GroupLayout.ParallelGroup horizontal = layout.createParallelGroup(GroupLayout.Alignment.CENTER);
+        GroupLayout.SequentialGroup vertical = layout.createSequentialGroup();
+        
         label.setText("Skills");
         label.setForeground(Color.BLACK);
+        
+        horizontal.addGroup(layout.createParallelGroup()
+                        .addComponent(label));
+        vertical.addGroup(layout.createParallelGroup()
+                        .addComponent(label));
+        
         
         ArrayList skl = FullOnRPG.player.getSkills();
         
         skl.forEach((Object skill) -> {
+            
             Skill e = (Skill) skill;
-            System.out.print(e.getSkillName());
+           
+            JLabel skillName = new JLabel();
+            JLabel skillLV = new JLabel();
+            JLabel skillXP = new JLabel();
+            skillName.setForeground(Color.BLACK);
+            skillLV.setForeground(Color.BLACK);
+            skillXP.setForeground(Color.BLACK);
+            
+            skillName.setText(e.getSkillName());
+            skillLV.setText(
+                    String.valueOf("LV: "
+                    .concat(String.valueOf(e.getSkillLvl()))));
+            skillXP.setText(
+                    String.valueOf(e.getSkillXp())
+                    .concat(" / ")
+                    .concat(String.valueOf(e.getSkillNextXP())));
+            
+            horizontal.addGroup(
+                layout.createSequentialGroup()
+                    .addComponent(skillName)
+                    .addComponent(skillLV)
+                    .addComponent(skillXP)    
+            );
+            vertical.addGroup(
+                layout.createParallelGroup()
+                    .addComponent(skillName)
+                    .addComponent(skillLV)
+                    .addComponent(skillXP) 
+            );
         });
+
         
-        painel.add(label);
+        layout.setHorizontalGroup(horizontal);
+        layout.setVerticalGroup(vertical);
         janela.add(painel);
     };
     
