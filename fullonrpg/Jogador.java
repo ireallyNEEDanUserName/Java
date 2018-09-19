@@ -14,12 +14,13 @@ import java.util.ArrayList;
 public class Jogador{
     
     private String nome;
-    private ArrayList<Skill> skills = new ArrayList<Skill>();
+    private ArrayList<Skill> skills = new ArrayList();
     
     Jogador(String nome){
         this.nome = nome;
-        setSkill("Mining");
-        setSkill("Smithing");
+        setSkill("Minerar");
+        setSkill("Forjar");
+        setSkill("Refinar");
     }
     
     private void setSkill(String str){
